@@ -26,7 +26,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-spotify": "^1.0.1",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "spotify-web-api-node": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"

@@ -7,12 +7,15 @@ const User = require("../models/User");
 passport.use(
   new SpotifyStrategy(
     {
-      clientID: process.env.client_id,
-      clientSecret: process.env.client_secret,
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
       callbackURL: 'http://localhost:3000/auth/spotify/callback',
       scope: ["user-read-email", "user-read-private", "playlist-read-collaborative", "playlist-modify-private", "playlist-modify-public", "playlist-read-private"]
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
+      console.log("TCL: accessToken", accessToken)
+      console.log("TCL: refreshToken", refreshToken)
+      console.log("TCL: expires_in", expires_in)
       console.log("profile", profile)
       
       User.findOne({ spotifyId: profile.id })
@@ -23,6 +26,8 @@ passport.use(
            User.create({
              username: profile.displayName,
              spotifyId: profile.id,
+             accessToken, 
+             refreshToken
            }).then(newUser => {
              done(null, newUser); // To login newUser
            });
