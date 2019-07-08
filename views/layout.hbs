@@ -5,20 +5,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{title}}</title>
+  <title>JukeBox</title>
   <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
 
 <body>
 
-  <nav>
-    <a href="/">Home</a>
-    <a href="/auth/login">Login</a>
-    <a href="/auth/signup">Signup</a>
-    <a href="/auth/logout">Logout</a>
-  </nav>
+  <!-- Image and text -->
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">
+    <img src="/images/jukebox-white.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    Jukebox
+  </a>
+   <a class="nav-link" href="/auth/logout">Logout <span class="sr-only">(current)</span></a>
 
+{{!-- Take to profile TODO --}}
+  <a class="navbar-brand" href="#"> 
+    <img src="/images/profile.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    
+  </a>
+</nav>
+<div class="container mt-3">
   {{{body}}}
+</div>
 
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
