@@ -90,6 +90,8 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
 router.get("/playlist-details/:playlist_id", (req, res, next) => {
   let playlistID = req.params.playlist_id;
 
+
+  
   res.render("playlist-details");
 });
 
