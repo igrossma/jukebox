@@ -22,7 +22,7 @@ router.get("/create-playlist", (req, res, next) => {
   res.render("create-playlist");
 });
 
-// Create Playlist in Spotify-Account
+// Create New Playlist in Spotify-Account
 router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
   let name = req.body.playlistName;
 
@@ -66,13 +66,26 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
   res.spotifyApi
     .getPlaylist(req.params.playlist_id)
     .then(function(data) {
-      //console.log('Some information about this playlist', data.body);
+      let tracksfromSpotify = []
+      for (let i = 0; i < data.body.tracks.items.length; i++) {
+        let track = data.body.tracks.items[i].track
+        tracksfromSpotify.push({
+          name: track.name,
+          artist: track.artists[0].name
+        })
+      }
+      console.log("TCL: tracksfromSpotify", tracksfromSpotify.length);
+    
+      // console.log("OUR ITEMS", data.body.tracks.items)
+      // console.log("TCL: track", track)
+      // console.log("TCL: trackName", trackName)
+      // console.log("TCL: trackArtistName", trackArtistName)
 
       Playlist.create({
         name: data.body.name,
         _creator: req.user.spotifyId,
         visibility: data.body.collaborative,
-        tracks: data.body.tracks.items
+        tracks: tracksfromSpotify
       });
 
       res.redirect("/playlists");
@@ -85,13 +98,12 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
 router.get("/playlist-details/:playlist_id", (req, res, next) => {
   let playlistID = req.params.playlist_id;
   Playlist.findById(playlistID).then(playlist => {
-    console.log("TCL: playlist track name", playlist.tracks[0].track.name);
-    console.log("TCL: playlist tracks", playlist.tracks[0].track.artists[0].name);
+    // console.log("TCL: playlist track name", playlist.tracks[0].track.name);
+    // console.log("TCL: playlist tracks", playlist.tracks[0].track.artists[0].name);
 
-    res.render("playlist-details",
-      {
-        track: playlist.tracks
-      });
+    res.render("playlist-details", {
+      track: playlist.tracks
+    });
   });
 });
 
