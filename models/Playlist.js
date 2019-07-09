@@ -6,7 +6,11 @@ const playlistSchema = new Schema(
     name: String,
     _creator: String,
     visibility: Boolean,
-    tracks: Array
+    tracks: [{
+      name: String,
+      numberOfvotes: {type:Number, default:0 },
+      artist: String
+    }]
   },
   {
     timestamps: {
