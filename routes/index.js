@@ -36,16 +36,15 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
 });
 
 // Get Add Playlist Page
-router.get("/add-playlist", (req, res, next) => {
+router.get("/add-playlist", setSpotifyApi, (req, res, next) => {
 
 
   res.spotifyApi.getUserPlaylists(req.user.spotifyId)
     .then(function(data) {
     console.log('Retrieved playlists', data.body.items);
 
-    res.render("add-playlists", {
+    res.render("add-playlist", {
       playlist: data.body.items,
-      
     })
   }).catch(function(err) {
     console.log('Something went wrong!', err);
