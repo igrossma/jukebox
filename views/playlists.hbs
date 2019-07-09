@@ -10,11 +10,15 @@
     </tr>
   </thead>
   <tbody>
+    {{#each playlist}}
     <tr>
-      <th scope="row">1</th>
+      <th scope="row">{{this.name}}</th>
+      <th scope="row">{{this.tracks.length}}</th>
+      <th scope="row">{{this._creator}}</th>
       <td><a href="#" class="btn btn-outline-primary">Play</a></td>
       <td><a href="#" class="btn btn-outline-primary">Share</a></td>
       <td><a href="#" class="btn btn-outline-primary">Edit</a></td>
     </tr>
+    {{/each}}
   </tbody>
 </table>
