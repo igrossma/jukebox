@@ -3,7 +3,6 @@ const router = express.Router();
 const { setSpotifyApi } = require("../middlewares");
 const Playlist = require("../models/Playlist");
 
-
 /* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
@@ -11,12 +10,11 @@ router.get("/", (req, res, next) => {
 
 // GET ALL PLAYLISTS OF ALL USER
 router.get("/playlists", (req, res, next) => {
-
   Playlist.find().then(playlist => {
     res.render("playlists", {
       playlist
     });
-  })
+  });
 });
 
 // Get Create Playlist Page
@@ -38,7 +36,7 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
         _creator: req.user.spotifyId,
         visibility: data.body.collaborative,
         tracks: data.body.tracks.items
-      })
+      });
 
       res.render("create-playlist");
     })
@@ -46,51 +44,55 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
       console.log("noooooooo");
       next(err);
     });
-
 });
 
 // Get Add Playlist Page
 router.get("/add-playlist", setSpotifyApi, (req, res, next) => {
-
-
-  res.spotifyApi.getUserPlaylists(req.user.spotifyId)
+  res.spotifyApi
+    .getUserPlaylists(req.user.spotifyId)
     .then(function(data) {
-    console.log('Retrieved playlists', data.body.items[5].images);
+      console.log("Retrieved playlists", data.body.items[5].images);
 
-    res.render("add-playlist", {
-      playlist: data.body.items
+      res.render("add-playlist", {
+        playlist: data.body.items
+      });
     })
-  }).catch(function(err) {
-    console.log('Something went wrong!', err);
-  }); 
+    .catch(function(err) {
+      console.log("Something went wrong!", err);
+    });
 });
 
 router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
-  
-  res.spotifyApi.getPlaylist(req.params.playlist_id)
-  .then(function(data) {
-    //console.log('Some information about this playlist', data.body);
+  res.spotifyApi
+    .getPlaylist(req.params.playlist_id)
+    .then(function(data) {
+      //console.log('Some information about this playlist', data.body);
 
-    Playlist.create({
-      name: data.body.name,
-      _creator: req.user.spotifyId,
-      visibility: data.body.collaborative,
-      tracks: data.body.tracks.items
+      Playlist.create({
+        name: data.body.name,
+        _creator: req.user.spotifyId,
+        visibility: data.body.collaborative,
+        tracks: data.body.tracks.items
+      });
+
+      res.redirect("/playlists");
     })
-
-    res.redirect("/playlists")
-
-  }).catch(function(err) {
-    console.log('Something went wrong!', err);
-  });
-
-})
-
+    .catch(function(err) {
+      console.log("Something went wrong!", err);
+    });
+});
 
 router.get("/playlist-details/:playlist_id", (req, res, next) => {
   let playlistID = req.params.playlist_id;
+  Playlist.findById(playlistID).then(playlist => {
+    console.log("TCL: playlist track name", playlist.tracks[0].track.name);
+    console.log("TCL: playlist tracks", playlist.tracks[0].track.artists[0].name);
 
-  res.render("playlist-details");
+    res.render("playlist-details",
+      {
+        track: playlist.tracks
+      });
+  });
 });
 
 module.exports = router;

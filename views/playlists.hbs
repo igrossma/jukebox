@@ -6,7 +6,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Name</th>
+      <th scope="col">Event</th>
       {{!-- <th scope="col">Duration</th> --}}
       <th scope="col">Host</th>
     </tr>
@@ -18,7 +18,7 @@
       <th scope="row">{{this._creator}}</th>
       <td><a href="#" class="btn btn-outline-primary">Play</a></td>
       <td><a href="#" class="btn btn-outline-primary">Share</a></td>
-      <td><a href="#" class="btn btn-outline-primary">Edit</a></td>
+      <td><a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Edit</a></td>
       <td><a href="#" class="btn btn-outline-primary">Delete</a></td>
     </tr>
     {{/each}}
