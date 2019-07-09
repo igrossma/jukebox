@@ -1,5 +1,7 @@
-<form  action="/add-playlist" method="post">
-<label for="playlist-name">Type the name of your playlist</label><br>
-<input class="form-control" id="playlist-name" type="text" name="playlistName" placeholder=""><br>
-<button class="btn btn-outline-primary">Search</button>
-</form>
+<h1>Choose the playlist you want to add</h1> 
+<ul class="list-unstyled" >
+{{#each playlist}}
+  <li> <a href="#">{{{this.name}}} </a> </li>
+{{/each}}
+  <li><a href="#">Some name </a></li>
+</ul>
