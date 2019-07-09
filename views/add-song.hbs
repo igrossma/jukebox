@@ -1,3 +1,20 @@
-<form action="/add-song" method="post">
-Name:<input class="form-control" type="text" name="name"><br>
+<form action="/playlist-details/{{{playlistId}}}/add-song" method="post">
+Song name<input class="form-control" type="text" name="name"><br>
+<button class="btn btn-outline-primary">Search</button>
 </form>
+
+<div class="row">
+
+  {{#each songs}}
+  <div class="card m-3" style="width: 18rem;">
+    <div class="card-body">
+      Name: <h5 class="card-title">{{{this.name}}}</h5>
+      Artist: <h5 class="card-title">{{{this.artists.[0].name}}}</h5>
+      Album: <h5 class="card-title">{{{this.album.name}}}</h5>
+     
+      <a href="/playlist-details/{{{playlistId}}}/add-song/{{{this.id}}}" class="btn btn-sm btn-outline-primary">Add song</a>
+    </div>
+  </div>
+  {{/each}}
+
+</div>

@@ -2,7 +2,7 @@ Followers:
 Duration:
 Link:
 
-<a href="#" class="btn btn-outline-primary">+ ADD</a>
+<a href="/playlist-details/{{{playlistID}}}/add-song" class="btn btn-outline-primary">+ ADD</a>
 
 
 <table class="table">
@@ -11,7 +11,8 @@ Link:
       <th scope="col">Name</th>
       <th scope="col">Artist</th>
       <th scope="col">Number of votes</th>
-      <th scope="col">Delete</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -21,6 +22,7 @@ Link:
       <th scope="row">{{{this.name}}}</th>
       <td>{{{this.artist}}}</td>
       <td>{{{this.numberOfvotes}}}</td>
+      <td><a href="#" class="btn btn-outline-primary">Vote</a></td>
       <td><a href="#" class="btn btn-outline-primary">Delete</a></td>
     </tr>
   {{/each}}

@@ -35,10 +35,9 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
         name: data.body.name,
         _creator: req.user.spotifyId,
         visibility: data.body.collaborative,
-        tracks: data.body.tracks.items
       });
 
-      res.render("create-playlist");
+      res.redirect("/playlists");
     })
     .catch(function(err) {
       console.log("noooooooo");
@@ -102,9 +101,48 @@ router.get("/playlist-details/:playlist_id", (req, res, next) => {
     // console.log("TCL: playlist tracks", playlist.tracks[0].track.artists[0].name);
 
     res.render("playlist-details", {
-      track: playlist.tracks
+      track: playlist.tracks,
+      playlistID
     });
   });
 });
+
+router.get("/playlist-details/:playlistID/add-song", (req, res, next) => {
+
+  res.render("add-song" , {
+    playlistId: req.params.playlistID
+  });
+});
+
+router.post("/playlist-details/:playlistID/add-song", setSpotifyApi, (req, res, next) => {
+  let search = req.body.name;
+  let playlistId = req.params.playlistID;
+
+  res.spotifyApi.searchTracks(search, { limit : 10 } )
+  .then(function(data) {
+    console.log('Search by "Love"', data.body.tracks.items);
+    
+    res.render("add-song", {
+      songs: data.body.tracks.items,
+      playlistId
+    });
+
+  }, function(err) {
+    console.error(err);
+  });
+
+})
+
+router.post("/playlist-details/:playlist_id/add-song/:songId" , (req, res, next) => {
+  let songId = req.params.songId;
+
+  Playlist.findById(playlistID).then(playlist => {
+    
+
+    res.render("playlist-details", {
+      track: playlist.tracks
+    });
+  });
+})
 
 module.exports = router;
