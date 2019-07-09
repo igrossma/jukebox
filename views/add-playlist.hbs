@@ -1,7 +1,19 @@
-<h1>Choose the playlist you want to add</h1> 
-<ul class="list-unstyled" >
-{{#each playlist}}
-  <li> <a href="#">{{{this.name}}} </a> </li>
-{{/each}}
-  <li><a href="#">Some name </a></li>
-</ul>
+<div class="row">
+
+  {{#each playlist}}
+  <div class="card m-3" style="width: 18rem;">
+    {{#if this.images.[0].url}}
+    <img class="card-img-top" src="{{this.images.[0].url}}" alt="Card image cap">
+    {{else}}
+    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/11/29/04/19/beach-1867285__340.jpg"
+      alt="Card image cap">
+    {{/if}}
+    <div class="card-body">
+      <h5 class="card-title">{{{this.name}}}</h5>
+      <a href="/add-playlist/{{{this.id}}}" class="btn btn-sm btn-outline-primary">Add playlist</a>
+    </div>
+  </div>
+  {{/each}}
+
+</div>
+
