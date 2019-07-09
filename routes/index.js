@@ -32,9 +32,6 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
       next(err);
     });
 
-  //todo
-  // take the name from the input and create a playlist
-  //
 });
 
 router.get("/add-playlist", (req, res, next) => {
