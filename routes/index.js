@@ -44,13 +44,11 @@ router.post("/add-playlist", setSpotifyApi, (req, res, next) => {
 
   res.spotifyApi.getUserPlaylists(req.user.spotifyId)
     .then(function(data) {
-    console.log("This is what i type in the search bar", search)
-    console.log('Retrieved playlists', data.body.items);
+
+
   },function(err) {
     console.log('Something went wrong!', err);
   })
-
-  Playlist.create()
 
   // take the input of the search form and ask spotify if the playlist exist or not
   // if yes - show the playlist and a button add and then
