@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { setSpotifyApi } = require("../middlewares")
+const { setSpotifyApi } = require("../middlewares");
+const Playlist = require("../models/Playlist");
 
 
 /* GET home page */
@@ -38,8 +39,18 @@ router.get("/add-playlist", (req, res, next) => {
   res.render("add-playlist");
 });
 
-router.post("/add-playlist", (req, res, next) => {
-  let search = req.body.playlist - name;
+router.post("/add-playlist", setSpotifyApi, (req, res, next) => {
+  let search = req.body.playlistName;
+
+  res.spotifyApi.getUserPlaylists(req.user.spotifyId)
+    .then(function(data) {
+    console.log("This is what i type in the search bar", search)
+    console.log('Retrieved playlists', data.body.items);
+  },function(err) {
+    console.log('Something went wrong!', err);
+  })
+
+  Playlist.create()
 
   // take the input of the search form and ask spotify if the playlist exist or not
   // if yes - show the playlist and a button add and then

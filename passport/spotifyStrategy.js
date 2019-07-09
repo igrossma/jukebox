@@ -13,10 +13,10 @@ passport.use(
       scope: ["user-read-email", "user-read-private", "playlist-read-collaborative", "playlist-modify-private", "playlist-modify-public", "playlist-read-private"]
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
-      console.log("TCL: accessToken", accessToken)
-      console.log("TCL: refreshToken", refreshToken)
-      console.log("TCL: expires_in", expires_in)
-      console.log("profile", profile)
+      // console.log("TCL: accessToken", accessToken)
+      // console.log("TCL: refreshToken", refreshToken)
+      // console.log("TCL: expires_in", expires_in)
+      // console.log("profile", profile)
       
       User.findOne({ spotifyId: profile.id })
        .then(user => {
