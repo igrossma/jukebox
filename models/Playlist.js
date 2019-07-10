@@ -4,12 +4,14 @@ const Schema = mongoose.Schema;
 const playlistSchema = new Schema(
   {
     name: String,
+    spotifyPlaylistId: String,
     _creator: String,
     visibility: Boolean,
     tracks: [{
       name: String,
       numberOfvotes: {type:Number, default:0 },
-      artist: String
+      artist: String,
+      spotifyTrackId: String
     }]
   },
   {
