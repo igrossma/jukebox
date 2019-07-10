@@ -5,14 +5,16 @@ const playlistSchema = new Schema(
   {
     name: String,
     spotifyPlaylistId: String,
-    _creator: String,
+    _creator: {type: Schema.Types.ObjectId, ref: "User"},
     visibility: Boolean,
     tracks: [{
       name: String,
       numberOfvotes: {type:Number, default:0 },
       artist: String,
-      spotifyTrackId: String
-    }]
+      spotifyTrackId: String,
+      _userWhoVoted: [{ type: Schema.Types.ObjectId, ref: "User" }] ,
+      _owner: {type: Schema.Types.ObjectId, ref: "User"},
+  }]
   },
   {
     timestamps: {

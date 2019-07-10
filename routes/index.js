@@ -34,7 +34,7 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
       Playlist.create({
         spotifyPlaylistId: data.body.id,
         name: data.body.name,
-        _creator: req.user.spotifyId,
+        _creator: req.user._id,
         visibility: data.body.collaborative
       });
 
@@ -97,6 +97,7 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
     });
 });
 
+// TODO: change the sort
 router.get("/playlist-details/:playlist_id", (req, res, next) => {
   let playlistID = req.params.playlist_id;
   Playlist.findById(playlistID).then(playlist => {
@@ -104,7 +105,7 @@ router.get("/playlist-details/:playlist_id", (req, res, next) => {
     // console.log("TCL: playlist tracks", playlist.tracks[0].track.artists[0].name);
 
     res.render("playlist-details", {
-      track: playlist.tracks,
+      track: playlist.tracks.sort((a,b) => a.name > b.name ? 1 : -1),
       playlistID
     });
   });
@@ -175,16 +176,63 @@ router.get(
 //   Playlist.findByIdAndUpdate({ i })
 // })
 
-
+// TODO: protect the route for connected users
 router.get("/vote/:songId/:playlistId", (req, res, next) => {
   let playlistId = req.params.playlistId;
   let songId = req.params.songId
 
-  Playlist.findByIdAndUpdate(songId, {
-   $inc: { numberOfvotes: 1 }
- }).then(() => {
-  res.redirect(`/playlist-details/${playlistId}`);
- });
+  Playlist.findById(playlistId)
+    .then(playlist => {
+      // Loop through the tracks and increment numberOfvotes for the right track
+      for (let i = 0; i < playlist.tracks.length; i++) {
+        if (songId === playlist.tracks[i].spotifyTrackId) {
+          // playlist.tracks[i].numberOfvotes++
+          if (!playlist.tracks[i]._userWhoVoted.map(id=>id.toString()).includes(req.user._id.toString())) {
+            playlist.tracks[i]._userWhoVoted.push(req.user._id)
+          }
+        }
+      }
+      return playlist.save()
+    })
+    .then(() => {
+      res.redirect(`/playlist-details/${playlistId}`);
+    })
+    .catch(next)
+  
+//   Playlist.findByIdAndUpdate(songId, {
+//    $inc: { numberOfvotes: 1 }
+//  }).then(() => {
+//   console.log("are you here")
+//   console.log("DEBUBG", songId)
+
+//   res.redirect(`/playlist-details/${playlistId}`);
+//  }).catch(err => next(err));
 });
+
+
+router.get("/playlist-details/:playlist_id/push", setSpotifyApi, (req, res, next) => {
+  let playlistId = req.params.playlist_id
+
+  Playlist.findById(playlistId)
+    .then(playlist => {
+      let tracksInfo = playlist.tracks.map(track => ({ uri : "spotify:track:" + track.spotifyTrackId}))
+      console.log("TCL: tracksInfo", tracksInfo)
+      res.spotifyApi.removeTracksFromPlaylist(playlist.spotifyPlaylistId, tracksInfo) //, 'MSw4Y2NlZjFjMTA5ZmU4ZDA4OGZkN2ZiNzM1YTZkMWVlMGQ4ZmJlMjk3')
+      .then((data) => {
+        console.log('Tracks removed from playlist!');
+        let trackStrings = playlist.tracks
+          .sort((a,b) => a.name > b.name ? 1 : -1)
+          .map(track => "spotify:track:"+track.spotifyTrackId)
+        res.spotifyApi.addTracksToPlaylist(playlist.spotifyPlaylistId, trackStrings)
+          .then(data => {
+            console.log('Added tracks to playlist!');
+            res.redirect("/playlist-details/"+playlistId)
+          })
+          .catch(next)
+      })
+      .catch(next)
+    })
+    .catch(next)
+})
 
 module.exports = router;
