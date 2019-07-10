@@ -32,9 +32,10 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
       console.log("Created playlist!", data);
 
       Playlist.create({
+        spotifyPlaylistId: data.body.id,
         name: data.body.name,
         _creator: req.user.spotifyId,
-        visibility: data.body.collaborative,
+        visibility: data.body.collaborative
       });
 
       res.redirect("/playlists");
@@ -65,16 +66,17 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
   res.spotifyApi
     .getPlaylist(req.params.playlist_id)
     .then(function(data) {
-      let tracksfromSpotify = []
+      let tracksfromSpotify = [];
       for (let i = 0; i < data.body.tracks.items.length; i++) {
-        let track = data.body.tracks.items[i].track
+        let track = data.body.tracks.items[i].track;
+        console.log("TCL: tracksfromSpotify", track);
         tracksfromSpotify.push({
           name: track.name,
+          spotifyTrackId: track.id,
           artist: track.artists[0].name
-        })
+        });
       }
-      console.log("TCL: tracksfromSpotify", tracksfromSpotify.length);
-    
+
       // console.log("OUR ITEMS", data.body.tracks.items)
       // console.log("TCL: track", track)
       // console.log("TCL: trackName", trackName)
@@ -82,6 +84,7 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
 
       Playlist.create({
         name: data.body.name,
+        spotifyPlaylistId: data.body.id,
         _creator: req.user.spotifyId,
         visibility: data.body.collaborative,
         tracks: tracksfromSpotify
@@ -107,39 +110,63 @@ router.get("/playlist-details/:playlist_id", (req, res, next) => {
   });
 });
 
-router.get("/playlist-details/:playlistID/add-song", setSpotifyApi, (req, res, next) => {
-  let search = req.query.search;
-  if (!search) {
-    res.render("add-song" , {
-      playlistId: req.params.playlistID
-    });
+router.get(
+  "/playlist-details/:playlistID/add-song",
+  setSpotifyApi,
+  (req, res, next) => {
+    let search = req.query.search;
+    if (!search) {
+      res.render("add-song", {
+        playlistId: req.params.playlistID
+      });
+    } else {
+      console.log("ELSE!!!!");
+      res.spotifyApi
+        .searchTracks(search, { limit: 10 })
+        .then(data => {
+          // console.log('Search by "Love"', data.body.tracks.items);
+          res.render("add-song", {
+            songs: data.body.tracks.items,
+            playlistId: req.params.playlistID,
+            search
+          });
+        })
+        .catch(err => next(err));
+    }
   }
-  else {
-    console.log("ELSE!!!!")
-    res.spotifyApi.searchTracks(search, { limit : 10 } )
-      .then(data => {
-        // console.log('Search by "Love"', data.body.tracks.items);
-        res.render("add-song", {
-          songs: data.body.tracks.items,
-          playlistId: req.params.playlistID,
-          search
-        });
+);
 
+router.get(
+  "/playlist-details/:playlist_id/add-song/:songId",
+  setSpotifyApi,
+  (req, res, next) => {
+    let playlistId = req.params.playlist_id;
+    let songId = req.params.songId;
+    console.log("SONGID", songId);
+    res.spotifyApi
+      .getTrack(songId)
+      .then(data => {
+        //console.log('DEBUG-Search by ID', data.body);
+        Playlist.updateOne(
+          { _id: playlistId },
+          {
+            $push: {
+              tracks: {
+                name: data.body.name,
+                //"numberOfvotes": {type:Number, default:0 },
+                artist: data.body.artists[0].name,
+                spotifyTrackId: data.body.id
+              }
+            }
+          }
+        )
+          .then(playlist => {
+            res.redirect(`/playlist-details/${playlistId}`);
+          })
+          .catch(err => next(err));
       })
       .catch(err => next(err));
   }
-});
-
-router.post("/playlist-details/:playlist_id/add-song/:songId" , (req, res, next) => {
-  let songId = req.params.songId;
-
-  Playlist.findById(playlistID).then(playlist => {
-    
-
-    res.render("playlist-details", {
-      track: playlist.tracks
-    });
-  });
-})
+);
 
 module.exports = router;
