@@ -4,13 +4,12 @@ const { setSpotifyApi } = require("../middlewares");
 const Playlist = require("../models/Playlist");
 const { pushPlaylistToSpotify } = require("../helpers");
 
-
-/* GET home page */
+// HOME PAGE with GET
 router.get("/", (req, res, next) => {
   res.render("index");
 });
 
-// GET ALL PLAYLISTS OF ALL USER
+// GET ALL PLAYLISTS from our DATABASE OF ALL USER
 router.get("/playlists", (req, res, next) => {
   Playlist.find().then(playlist => {
     res.render("playlists", {
@@ -19,7 +18,7 @@ router.get("/playlists", (req, res, next) => {
   });
 });
 
-// Get Create Playlist Page
+// RENDER Create Playlist Page GET
 router.get("/create-playlist", (req, res, next) => {
   res.render("create-playlist");
 });
@@ -48,12 +47,12 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
     });
 });
 
-// Get Add Playlist Page
+// Look at all Playlists of the Logged-in User of the Spotify-Account
 router.get("/add-playlist", setSpotifyApi, (req, res, next) => {
   res.spotifyApi
     .getUserPlaylists(req.user.spotifyId)
     .then(function(data) {
-      console.log("Retrieved playlists", data.body.items[5].images);
+      //console.log("Retrieved playlists", data.body.items[5].images);
 
       res.render("add-playlist", {
         playlist: data.body.items
@@ -61,9 +60,11 @@ router.get("/add-playlist", setSpotifyApi, (req, res, next) => {
     })
     .catch(function(err) {
       console.log("Something went wrong!", err);
+      next(err);
     });
 });
 
+// Add the spotify-Playlist with all the tracks to our database
 router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
   res.spotifyApi
     .getPlaylist(req.params.playlist_id)
@@ -71,23 +72,21 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
       let tracksfromSpotify = [];
       for (let i = 0; i < data.body.tracks.items.length; i++) {
         let track = data.body.tracks.items[i].track;
-        console.log("TCL: tracksfromSpotify", track);
+        //console.log("TCL: tracksfromSpotify", track);
         tracksfromSpotify.push({
           name: track.name,
           spotifyTrackId: track.id,
-          artist: track.artists[0].name
+          artist: track.artists[0].name,
+          _owner: req.user._id
         });
       }
 
       // console.log("OUR ITEMS", data.body.tracks.items)
-      // console.log("TCL: track", track)
-      // console.log("TCL: trackName", trackName)
-      // console.log("TCL: trackArtistName", trackArtistName)
 
       Playlist.create({
         name: data.body.name,
         spotifyPlaylistId: data.body.id,
-        _creator: req.user.spotifyId,
+        _creator: req.user._id,//before it was spotifyId
         visibility: data.body.collaborative,
         tracks: tracksfromSpotify
       });
