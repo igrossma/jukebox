@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { setSpotifyApi } = require("../middlewares");
 const Playlist = require("../models/Playlist");
-
+const { pushPlaylistToSpotify } = require("../helpers");
 /* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
@@ -213,24 +213,10 @@ router.get("/vote/:songId/:playlistId", (req, res, next) => {
 router.get("/playlist-details/:playlist_id/push", setSpotifyApi, (req, res, next) => {
   let playlistId = req.params.playlist_id
 
-  Playlist.findById(playlistId)
-    .then(playlist => {
-      let tracksInfo = playlist.tracks.map(track => ({ uri : "spotify:track:" + track.spotifyTrackId}))
-      console.log("TCL: tracksInfo", tracksInfo)
-      res.spotifyApi.removeTracksFromPlaylist(playlist.spotifyPlaylistId, tracksInfo) //, 'MSw4Y2NlZjFjMTA5ZmU4ZDA4OGZkN2ZiNzM1YTZkMWVlMGQ4ZmJlMjk3')
-      .then((data) => {
-        console.log('Tracks removed from playlist!');
-        let trackStrings = playlist.tracks
-          .sort((a,b) => a.name > b.name ? 1 : -1)
-          .map(track => "spotify:track:"+track.spotifyTrackId)
-        res.spotifyApi.addTracksToPlaylist(playlist.spotifyPlaylistId, trackStrings)
-          .then(data => {
-            console.log('Added tracks to playlist!');
-            res.redirect("/playlist-details/"+playlistId)
-          })
-          .catch(next)
-      })
-      .catch(next)
+
+  pushPlaylistToSpotify(playlistId, res.spotifyApi)
+    .then(() => {
+      res.redirect("/playlist-details/"+playlistId)
     })
     .catch(next)
 })
