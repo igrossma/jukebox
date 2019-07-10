@@ -22,7 +22,7 @@ Link:
       <th scope="row">{{{this.name}}}</th>
       <td>{{{this.artist}}}</td>
       <td>{{{this.numberOfvotes}}}</td>
-      <td><a href="#" class="btn btn-outline-primary">Vote</a></td>
+      <td><a href="/vote/{{this._id}}/{{../playlistID}}" class="btn btn-outline-primary">Vote</a></td>
       <td><a href="#" class="btn btn-outline-primary">Delete</a></td>
     </tr>
   {{/each}}

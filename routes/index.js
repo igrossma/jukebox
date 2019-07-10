@@ -169,4 +169,22 @@ router.get(
   }
 );
 
+// router.get("/vote/:songId",(res, req, next) => {
+//   let songId = req.params.songId
+
+//   Playlist.findByIdAndUpdate({ i })
+// })
+
+
+router.get("/vote/:songId/:playlistId", (req, res, next) => {
+  let playlistId = req.params.playlistId;
+  let songId = req.params.songId
+
+  Playlist.findByIdAndUpdate(songId, {
+   $inc: { numberOfvotes: 1 }
+ }).then(() => {
+  res.redirect(`/playlist-details/${playlistId}`);
+ });
+});
+
 module.exports = router;

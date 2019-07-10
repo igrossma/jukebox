@@ -9,7 +9,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/spotify/callback',
+      callbackURL: process.env.CALLBACK_URL,
       scope: ["user-read-email", "user-read-private", "playlist-read-collaborative", "playlist-modify-private", "playlist-modify-public", "playlist-read-private"],
       showDialog: true
     },
