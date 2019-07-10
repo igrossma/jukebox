@@ -3,6 +3,8 @@ const router = express.Router();
 const { setSpotifyApi } = require("../middlewares");
 const Playlist = require("../models/Playlist");
 const { pushPlaylistToSpotify } = require("../helpers");
+
+
 /* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
@@ -197,7 +199,7 @@ router.get("/vote/:songId/:playlistId", (req, res, next) => {
     .then(() => {
       res.redirect(`/playlist-details/${playlistId}`);
     })
-    .catch(next)
+    .catch(err => next(err));
   
 //   Playlist.findByIdAndUpdate(songId, {
 //    $inc: { numberOfvotes: 1 }
@@ -218,7 +220,7 @@ router.get("/playlist-details/:playlist_id/push", setSpotifyApi, (req, res, next
     .then(() => {
       res.redirect("/playlist-details/"+playlistId)
     })
-    .catch(next)
+    .catch(err => next(err));
 })
 
 module.exports = router;
