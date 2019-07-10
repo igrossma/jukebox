@@ -107,31 +107,28 @@ router.get("/playlist-details/:playlist_id", (req, res, next) => {
   });
 });
 
-router.get("/playlist-details/:playlistID/add-song", (req, res, next) => {
-
-  res.render("add-song" , {
-    playlistId: req.params.playlistID
-  });
-});
-
-router.post("/playlist-details/:playlistID/add-song", setSpotifyApi, (req, res, next) => {
-  let search = req.body.name;
-  let playlistId = req.params.playlistID;
-
-  res.spotifyApi.searchTracks(search, { limit : 10 } )
-  .then(function(data) {
-    console.log('Search by "Love"', data.body.tracks.items);
-    
-    res.render("add-song", {
-      songs: data.body.tracks.items,
-      playlistId
+router.get("/playlist-details/:playlistID/add-song", setSpotifyApi, (req, res, next) => {
+  let search = req.query.search;
+  if (!search) {
+    res.render("add-song" , {
+      playlistId: req.params.playlistID
     });
+  }
+  else {
+    console.log("ELSE!!!!")
+    res.spotifyApi.searchTracks(search, { limit : 10 } )
+      .then(data => {
+        // console.log('Search by "Love"', data.body.tracks.items);
+        res.render("add-song", {
+          songs: data.body.tracks.items,
+          playlistId: req.params.playlistID,
+          search
+        });
 
-  }, function(err) {
-    console.error(err);
-  });
-
-})
+      })
+      .catch(err => next(err));
+  }
+});
 
 router.post("/playlist-details/:playlist_id/add-song/:songId" , (req, res, next) => {
   let songId = req.params.songId;

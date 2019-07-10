@@ -1,6 +1,7 @@
-<form action="/playlist-details/{{{playlistId}}}/add-song" method="post">
-Song name<input class="form-control" type="text" name="name"><br>
-<button class="btn btn-outline-primary">Search</button>
+<form action="/playlist-details/{{{playlistId}}}/add-song" method="get">
+  Song name
+  <input class="form-control" type="text" name="search" value="{{search}}"><br>
+  <button class="btn btn-outline-primary">Search</button>
 </form>
 
 <div class="row">
@@ -12,7 +13,7 @@ Song name<input class="form-control" type="text" name="name"><br>
       Artist: <h5 class="card-title">{{{this.artists.[0].name}}}</h5>
       Album: <h5 class="card-title">{{{this.album.name}}}</h5>
      
-      <a href="/playlist-details/{{{playlistId}}}/add-song/{{{this.id}}}" class="btn btn-sm btn-outline-primary">Add song</a>
+      <a href="/playlist-details/{{{../playlistId}}}/add-song/{{{this.id}}}" class="btn btn-sm btn-outline-primary">Add song</a>
     </div>
   </div>
   {{/each}}
