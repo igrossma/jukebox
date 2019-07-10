@@ -14,7 +14,7 @@ function pushPlaylistToSpotify(playlistId, spotifyApi) {
         .then((data) => {
           console.log('Tracks removed from playlist!');
           let trackStrings = playlist.tracks
-            .sort((a,b) => a.name > b.name ? 1 : -1)
+            .sort((a,b) => a._userWhoVoted.length < b._userWhoVoted.length  ? 1 : -1)
             .map(track => "spotify:track:"+track.spotifyTrackId)
             // .slice(0,3) // To take the first 3 songs
           spotifyApi.addTracksToPlaylist(playlist.spotifyPlaylistId, trackStrings)
@@ -33,6 +33,8 @@ function pushPlaylistToSpotify(playlistId, spotifyApi) {
 }
 
 
+
+
 module.exports = {
-  pushPlaylistToSpotify
+  pushPlaylistToSpotify,
 }

@@ -18,14 +18,16 @@ Link:
   </thead>
   <tbody>
 
-  {{#each track}}
+    {{#each track}}
     <tr>
       <th scope="row">{{{this.name}}}</th>
       <td>{{{this.artist}}}</td>
       <td>{{{this._userWhoVoted.length}}}</td>
+      {{#if ../user}}
       <td><a href="/vote/{{this.spotifyTrackId}}/{{../playlistID}}" class="btn btn-outline-primary">Vote</a></td>
       <td><a href="#" class="btn btn-outline-primary">Delete</a></td>
+      {{/if}}
     </tr>
-  {{/each}}
+    {{/each}}
   </tbody>
 </table>

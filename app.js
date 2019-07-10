@@ -58,7 +58,15 @@ hbs.registerHelper('ifUndefined', (value, options) => {
       return options.fn(this);
   }
 });
-  
+
+// New HBS helper: {{#ifEquals value1 value2}}.....{{/ifEquals}}
+hbs.registerHelper("ifEquals", (value1, value2, options) => {
+  if (value1 === value2) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
@@ -80,6 +88,8 @@ app.use('/', index);
 
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
+
+
       
 
 module.exports = app;

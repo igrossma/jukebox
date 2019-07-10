@@ -98,24 +98,28 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
     });
 });
 
-// TODO: change the sort
+// Sorting the Playlist by number of votes
 router.get("/playlist-details/:playlist_id", (req, res, next) => {
   let playlistID = req.params.playlist_id;
-  Playlist.findById(playlistID).then(playlist => {
+  Playlist.findById(playlistID)
+  .populate("_owner")
+  .then(playlist => {
+  
     // console.log("TCL: playlist track name", playlist.tracks[0].track.name);
     // console.log("TCL: playlist tracks", playlist.tracks[0].track.artists[0].name);
-
+    // console.log("DEBUG USER WHO VOTED",playlist.tracks[0]._userWhoVoted)
+    // console.log("DEBUG POULATED OWNER",playlist.tracks[0]._owner, "req.user._id", req.user._id)
     res.render("playlist-details", {
-      track: playlist.tracks.sort((a,b) => a.name > b.name ? 1 : -1),
-      playlistID
+      // track: playlist.tracks.sort((a,b) => a.name > b.name ? 1 : -1),
+      track: playlist.tracks.sort((a, b) => b._userWhoVoted.length - a._userWhoVoted.length),
+      playlistID,
+      user: req.user
     });
   });
 });
 
-router.get(
-  "/playlist-details/:playlistID/add-song",
-  setSpotifyApi,
-  (req, res, next) => {
+// Display songs based on search-Bar
+router.get("/playlist-details/:playlistID/add-song", setSpotifyApi, (req, res, next) => {
     let search = req.query.search;
     if (!search) {
       res.render("add-song", {
@@ -135,41 +139,36 @@ router.get(
         })
         .catch(err => next(err));
     }
-  }
-);
+});
 
-router.get(
-  "/playlist-details/:playlist_id/add-song/:songId",
-  setSpotifyApi,
-  (req, res, next) => {
-    let playlistId = req.params.playlist_id;
-    let songId = req.params.songId;
-    console.log("SONGID", songId);
-    res.spotifyApi
-      .getTrack(songId)
-      .then(data => {
-        //console.log('DEBUG-Search by ID', data.body);
-        Playlist.updateOne(
-          { _id: playlistId },
-          {
-            $push: {
-              tracks: {
-                name: data.body.name,
-                //"numberOfvotes": {type:Number, default:0 },
-                artist: data.body.artists[0].name,
-                spotifyTrackId: data.body.id
-              }
+//
+router.get("/playlist-details/:playlist_id/add-song/:songId", setSpotifyApi, (req, res, next) => {
+  let playlistId = req.params.playlist_id;
+  let songId = req.params.songId;
+  console.log("SONGID", songId);
+  res.spotifyApi
+    .getTrack(songId)
+    .then(data => {
+      //console.log('DEBUG-Search by ID', data.body);
+      Playlist.updateOne(
+        { _id: playlistId },
+        { $push: {
+            tracks: {
+              name: data.body.name,
+              artist: data.body.artists[0].name,
+              spotifyTrackId: data.body.id,
+              _owner: req.user._id
             }
           }
-        )
-          .then(playlist => {
-            res.redirect(`/playlist-details/${playlistId}`);
-          })
-          .catch(err => next(err));
-      })
-      .catch(err => next(err));
-  }
-);
+        }
+      )
+        .then(playlist => {
+          res.redirect(`/playlist-details/${playlistId}`);
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
 
 // router.get("/vote/:songId",(res, req, next) => {
 //   let songId = req.params.songId
@@ -187,7 +186,7 @@ router.get("/vote/:songId/:playlistId", (req, res, next) => {
       // Loop through the tracks and increment numberOfvotes for the right track
       for (let i = 0; i < playlist.tracks.length; i++) {
         if (songId === playlist.tracks[i].spotifyTrackId) {
-          // playlist.tracks[i].numberOfvotes++
+          // playlist.tracks[i].numberOfvotes++ //this used to be commented
           if (!playlist.tracks[i]._userWhoVoted.map(id=>id.toString()).includes(req.user._id.toString())) {
             playlist.tracks[i]._userWhoVoted.push(req.user._id)
           }
@@ -221,5 +220,21 @@ router.get("/playlist-details/:playlist_id/push", setSpotifyApi, (req, res, next
     })
     .catch(err => next(err));
 })
+
+// TODO
+// router.get("/hello", setSpotifyApi, (req, res, next) => {
+
+//   res.spotifyApi.getMyCurrentPlaybackState({
+//   })
+//   .then(function(data) {
+//     console.log("Now Playing: ",data.body);
+//     res.render("index");
+//     // Output items
+//   }, function(err) {
+//     console.log('Something went wrong!', err);
+//   });
+  
+// });
+
 
 module.exports = router;
