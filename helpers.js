@@ -7,9 +7,9 @@ function pushPlaylistToSpotify(playlistId, spotifyApi) {
     .then(playlist => {
       spotifyApi.getPlaylist(playlist.spotifyPlaylistId)
       .then((data) => {
-        console.log('Some information about this playlist', data.body.tracks.items);
+        // console.log('Some information about this playlist', data.body.tracks.items);
         let tracksInfo = data.body.tracks.items.map(item => ({ uri : item.track.uri }))
-        console.log("TCL: tracksInfo", tracksInfo)
+        // console.log("TCL: tracksInfo", tracksInfo)
         spotifyApi.removeTracksFromPlaylist(playlist.spotifyPlaylistId, tracksInfo) //, 'MSw4Y2NlZjFjMTA5ZmU4ZDA4OGZkN2ZiNzM1YTZkMWVlMGQ4ZmJlMjk3')
         .then((data) => {
           console.log('Tracks removed from playlist!');
