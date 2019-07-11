@@ -3,7 +3,7 @@ Duration:
 Link:
 
 <a href="/playlist-details/{{{playlistID}}}/add-song" class="btn btn-outline-primary">+ ADD</a>
-<a href="/playlist-details/{{{playlistID}}}/push" class="btn btn-outline-primary">PUSH TO SPOTIFY</a>
+{{!-- <a href="/playlist-details/{{{playlistID}}}/push" class="btn btn-outline-primary">PUSH TO SPOTIFY</a> --}}
 
 
 <table class="table">
@@ -25,7 +25,7 @@ Link:
       <td>{{{this._userWhoVoted.length}}}</td>
       {{#if ../user}}
       <td><a href="/vote/{{this.spotifyTrackId}}/{{../playlistID}}" class="btn btn-outline-primary">Vote</a></td>
-      <td><a href="#" class="btn btn-outline-primary">Delete</a></td>
+      {{!-- <a><a href="#" class="btn btn-outline-primary">Delete</a></a> --}}
       {{/if}}
     </tr>
     {{/each}}

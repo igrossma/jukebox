@@ -30,9 +30,9 @@
       {{!-- <td><a href="#" class="btn btn-outline-primary">Play</a></td>
       <td><a href="#" class="btn btn-outline-primary">Share</a></td> --}}
       <td><a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Edit</a></td>
-      {{#ifEquals ../this._creator._id ../../connectedUserId }} 
-      {{!-- <td><a href="#" class="btn btn-outline-primary">Delete</a></td> --}}
-      {{/ifEquals}}
+      {{!-- {{#ifEqualsUser ../this._creator._id }}  --}}
+      {{!-- <a><a href="#" class="btn btn-outline-primary">Delete</a></a> --}}
+      {{!-- {{/ifEqualsUser}} --}}
     </tr>
     {{/each}}
   </tbody>

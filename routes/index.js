@@ -117,28 +117,10 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
 });
 
 // ----------------- Sorting the Playlist by number of votes and pushing to spotify-----------------
-router.get("/playlist-details/:playlist_id", setSpotifyApi,(req, res, next) => {
+router.get("/playlist-details/:playlist_id", (req, res, next) => {
     let playlistID = req.params.playlist_id;
 
-    res.spotifyApi
-    .getMyCurrentPlaybackState({})
-    .then(function(data) {
-        // Output items
-        console.log("Now Playing: ", data.body);
-      },
-      function(err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-
-    //Push playlist to spotify every 20 seconds
-    setInterval(() => {
-      pushPlaylistToSpotify(playlistID, res.spotifyApi)
-        .then(() => {
-          res.redirect("/playlist-details/" + playlistID);
-        })
-        .catch(err => next(err));
-    }, 20000);
+   
 
     Playlist.findById(playlistID)
       .populate("_owner")
@@ -154,6 +136,16 @@ router.get("/playlist-details/:playlist_id", setSpotifyApi,(req, res, next) => {
           user: req.user
         });
       });
+ // Push playlist to spotify every 20 seconds
+    setInterval(() => {
+      setSpotifyApi,
+      pushPlaylistToSpotify(playlistID, res.spotifyApi)
+        .then(() => {
+          res.redirect("/playlist-details/" + playlistID);
+        })
+        .catch(err => next(err));
+    }, 20000);
+
   }
 );
 
@@ -182,8 +174,7 @@ router.get("/playlist-details/:playlistID/add-song",setSpotifyApi,(req, res, nex
 );
 
 //----------------- Add songs to playlist ----------------------
-router.get("/playlist-details/:playlist_id/add-song/:songId",setSpotifyApi,
-  (req, res, next) => {
+router.get("/playlist-details/:playlist_id/add-song/:songId",setSpotifyApi,(req, res, next) => {
     let playlistId = req.params.playlist_id;
     let songId = req.params.songId;
     console.log("SONGID", songId);
@@ -194,8 +185,7 @@ router.get("/playlist-details/:playlist_id/add-song/:songId",setSpotifyApi,
         Playlist.updateOne(
           { _id: playlistId },
           {
-            $push: {
-              tracks: {
+            $push: {tracks: {
                 name: data.body.name,
                 artist: data.body.artists[0].name,
                 spotifyTrackId: data.body.id,
