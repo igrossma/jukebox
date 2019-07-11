@@ -1,7 +1,15 @@
-<h1>Playlists</h1>
+<div class="container">
+  <div class="row align-items-center">
+      <div class="col-auto mr-auto">
+      <h1>Events</h1>
+      </div>
+      <div class="col-auto">
+      <a href="/create-playlist" class="btn btn-primary">Add a New Event</a>
+      </div>
+  </div>
+</div>
 
-<a href="/create-playlist" class="btn btn-outline-primary">New</a>
-<a href="/add-playlist" class="btn btn-outline-primary">Add existing</a>
+{{!-- <a href="/add-playlist" class="btn btn-outline-primary">Add existing</a> --}}
 
 <table class="table">
   <thead>
@@ -19,11 +27,11 @@
       <th scope="row">{{this.name}}</th>
       <th scope="row">{{this._creator.username}}</th>
       <th scope="row">{{this.location}}</th>
-      <td><a href="#" class="btn btn-outline-primary">Play</a></td>
-      <td><a href="#" class="btn btn-outline-primary">Share</a></td>
+      {{!-- <td><a href="#" class="btn btn-outline-primary">Play</a></td>
+      <td><a href="#" class="btn btn-outline-primary">Share</a></td> --}}
       <td><a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Edit</a></td>
       {{#ifEquals ../this._creator._id ../../connectedUserId }} 
-      <td><a href="#" class="btn btn-outline-primary">Delete</a></td>
+      {{!-- <td><a href="#" class="btn btn-outline-primary">Delete</a></td> --}}
       {{/ifEquals}}
     </tr>
     {{/each}}

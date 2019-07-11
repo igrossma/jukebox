@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row align-items-center">
+      <div class="col-auto mr-auto">
+      <h1>Events</h1>
+      </div>
+      <div class="col-auto">
+      <a href="/create-playlist" class="btn btn-primary">Add a New Event</a>
+      </div>
+  </div>
+</div>
+
+
+
+
+<div class="row">
+
+  {{#each playlist}}
+  <div class="card m-3" style="width: 18rem;">
+    {{#if this.imgPath}}
+    <img class="card-img-top" src="{{this.imgPath}}" alt="Card image cap">
+    {{else}}
+    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/11/29/04/19/beach-1867285__340.jpg"
+      alt="Card image cap">
+    {{/if}}
+    <div class="card-body">
+      <h5 class="card-title">{{{this.name}}}</h5>
+      <form>
+        <div class="form-group">
+          <label for="eventName">Event Name:</label>
+          <input type="text" class="form-control" id="eventName" placeholder="Enter event name">
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+      <a href="/add-playlist/{{{this.id}}}" class="btn btn-sm btn-outline-primary">Add playlist</a>
+    </div>
+  </div>
+  {{/each}}
+
+</div>

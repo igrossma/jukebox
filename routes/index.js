@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const multer  = require('multer');
+const uploadCloud = require('../config/cloudinary.js');
 const { setSpotifyApi } = require("../middlewares");
 const Playlist = require("../models/Playlist");
 const { pushPlaylistToSpotify } = require("../helpers");
@@ -35,9 +37,11 @@ router.get("/create-playlist", (req, res, next) => {
   res.render("create-playlist");
 });
 
-// ----------------- CREATE New Playlist in Spotify-Account-----------------
-router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
+
+// ----------------- CREATE New Playlist in Spotify-Account----------------- 
+router.post("/create-playlist", setSpotifyApi, uploadCloud.single('photo'), (req, res, next) => {
   let name = req.body.playlistName;
+  let imgPath = req.file.url;
   let location = req.body.location;
 
   res.spotifyApi
@@ -50,6 +54,7 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
         name: data.body.name,
         _creator: req.user._id,
         location: location,
+        imgPath: imgPath,
         visibility: data.body.collaborative
       });
 

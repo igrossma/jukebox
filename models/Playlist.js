@@ -7,6 +7,8 @@ const playlistSchema = new Schema(
     spotifyPlaylistId: String,
     _creator: {type: Schema.Types.ObjectId, ref: "User"},
     visibility: Boolean,
+    imgName: String,
+    imgPath: String,
     location: {type: String, default: "Rua de São Bento"},
     tracks: [{
       name: String,
