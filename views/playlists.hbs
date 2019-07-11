@@ -11,15 +11,19 @@
       <th scope="col">Host</th>
     </tr>
   </thead>
+
   <tbody>
     {{#each playlist}}
     <tr>
       <th scope="row">{{this.name}}</th>
-      <th scope="row">{{this._creator}}</th>
-      <td><a href="#" class="btn btn-outline-primary">Play</a></td>
-      <td><a href="#" class="btn btn-outline-primary">Share</a></td>
+      <th scope="row">{{this._creator.username}}</th>
+      <th scope="row">{{this._creator._id}}</th>
+      {{!-- <a><a href="#" class="btn btn-outline-primary">Play</a></a> --}}
+      {{!-- <a><a href="#" class="btn btn-outline-primary">Share</a></a> --}}
       <td><a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Edit</a></td>
+      {{#ifEquals ../this._creator._id ../../connectedUserId }} 
       <td><a href="#" class="btn btn-outline-primary">Delete</a></td>
+      {{/ifEquals}}
     </tr>
     {{/each}}
   </tbody>

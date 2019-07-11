@@ -11,9 +11,16 @@ router.get("/", (req, res, next) => {
 
 // GET ALL PLAYLISTS from our DATABASE OF ALL USER
 router.get("/playlists", (req, res, next) => {
-  Playlist.find().then(playlist => {
+  Playlist.find()
+
+  .populate("_creator")
+  .then(playlist => {
+    let connectedUserId= req.user._id
+  // console.log("TCL: playlist creator ID", playlist[0]._creator._id)
+  // console.log("Connected user ID", req.user._id)
     res.render("playlists", {
-      playlist
+      playlist,
+      connectedUserId
     });
   });
 });

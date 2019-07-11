@@ -68,6 +68,7 @@ hbs.registerHelper("ifEquals", (value1, value2, options) => {
   }
 });
 
+
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
 
@@ -88,8 +89,6 @@ app.use('/', index);
 
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
-
-
       
 
 module.exports = app;
