@@ -26,6 +26,7 @@ router.get("/create-playlist", (req, res, next) => {
 // Create New Playlist in Spotify-Account
 router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
   let name = req.body.playlistName;
+  let location = req.body.location;
 
   res.spotifyApi
     .createPlaylist(req.user.spotifyId, name, { public: false })
@@ -36,6 +37,7 @@ router.post("/create-playlist", setSpotifyApi, (req, res, next) => {
         spotifyPlaylistId: data.body.id,
         name: data.body.name,
         _creator: req.user._id,
+        location: location,
         visibility: data.body.collaborative
       });
 

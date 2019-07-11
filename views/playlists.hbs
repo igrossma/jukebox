@@ -9,6 +9,7 @@
       <th scope="col">Event</th>
       {{!-- <th scope="col">Duration</th> --}}
       <th scope="col">Host</th>
+      <th scope="col">Location</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +17,7 @@
     <tr>
       <th scope="row">{{this.name}}</th>
       <th scope="row">{{this._creator}}</th>
+      <th scope="row">{{this.location}}</th>
       <td><a href="#" class="btn btn-outline-primary">Play</a></td>
       <td><a href="#" class="btn btn-outline-primary">Share</a></td>
       <td><a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Edit</a></td>

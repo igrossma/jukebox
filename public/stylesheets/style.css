@@ -4,6 +4,7 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+@import url("https://fonts.googleapis.com/css?family=Signika&display=swap");
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -7035,7 +7036,7 @@ a.text-dark:hover, a.text-dark:focus {
   align-items: center; }
 
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px 'Signika', sans-serif; }
 
 a {
   color: #00B7FF; }

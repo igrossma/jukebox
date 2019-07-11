@@ -1,4 +1,5 @@
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import url('https://fonts.googleapis.com/css?family=Signika&display=swap');
 
 * {
   border: 0.5px dashed red;
@@ -15,7 +16,7 @@
 }
 
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Signika', sans-serif;
 }
 
 a {
