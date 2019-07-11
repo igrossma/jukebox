@@ -7020,6 +7020,20 @@ a.text-dark:hover, a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6; } }
 
+* {
+  border: 0.5px dashed red; }
+
+.vertical-center {
+  min-height: 100%;
+  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh;
+  /* These two lines are counted as one :-)       */
+  display: flex;
+  background-image: url("https://lumisdotai.s3.amazonaws.com/events/modules/1dd94563-0fc4-4484-b7d8-c8b7ac5df565.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  align-items: center; }
+
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 

@@ -6,7 +6,7 @@ const { pushPlaylistToSpotify } = require("../helpers");
 
 // HOME PAGE with GET
 router.get("/", (req, res, next) => {
-  res.render("index");
+  res.render("index", { "message": req.flash("error"),   layout: "layout-without-navbar" });
 });
 
 // GET ALL PLAYLISTS from our DATABASE OF ALL USER
