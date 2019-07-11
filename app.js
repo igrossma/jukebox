@@ -68,6 +68,14 @@ hbs.registerHelper("ifEquals", (value1, value2, options) => {
   }
 });
 
+//TRYING TO GET THE CONECTED USER INTO OUR VIEW
+// hbs.registerHelper("ifEqualsUser", (value1,  options) => {
+//   if (res.locals.user._id === value2) {
+//     return options.fn(this);
+//   } else {
+//     return options.inverse(this);
+//   }
+// });
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
