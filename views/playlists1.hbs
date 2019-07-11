@@ -12,12 +12,17 @@
 {{#each playlist}}
 <div class="row no-gutters bg-light position-relative">
   <div class="col-md-6 mb-md-0 p-md-4">
+    {{#if this.imgPath}}
     <img class="w-100" src="{{this.imgPath}}" alt="Card image cap">
+    {{else}}
+    <img class="w-100" src="https://cdn.pixabay.com/photo/2016/11/29/04/19/beach-1867285__340.jpg"
+      alt="Card image cap">
+    {{/if}}
   </div>
   <div class="col-md-6 position-static p-4 pl-md-0">
-    <h5 class="mt-0">{{this.name}}</h5>
-    <p>Location: {{this.location}}</p>
-    <p>Host: {{this._creator.username}}</p>
+    <p>@ {{this.location}}</p>
+    <h2 class="mt-0">{{this.name}}</h2>
+    <p>hosted by {{this._creator.username}}</p>
     <a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Join</a>
   </div>
 </div>

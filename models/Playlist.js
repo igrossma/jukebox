@@ -8,7 +8,7 @@ const playlistSchema = new Schema(
     _creator: {type: Schema.Types.ObjectId, ref: "User"},
     visibility: Boolean,
     imgName: String,
-    imgPath: String,
+    imgPath: {type: String, default: "https://cdn.pixabay.com/photo/2016/11/29/04/19/beach-1867285__340.jpg" },
     location: {type: String, default: "Rua de São Bento"},
     tracks: [{
       name: String,
