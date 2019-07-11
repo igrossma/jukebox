@@ -7038,4 +7038,7 @@ body {
 a {
   color: #00B7FF; }
 
+.card {
+  max-height: 150px; }
+
 /*# sourceMappingURL=style.css.map */

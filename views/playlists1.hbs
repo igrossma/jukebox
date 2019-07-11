@@ -1,18 +1,22 @@
 <div class="container">
   <div class="row align-items-center">
-      <div class="col-auto mr-auto">
+    <div class="col-auto mr-auto">
       <h1>Events</h1>
-      </div>
-      <div class="col-auto">
+    </div>
+    {{#if user}}
+    <div class="col-auto">
       <a href="/create-playlist" class="btn btn-primary">Add a New Event</a>
-      </div>
+    </div>
+    {{/if}}
   </div>
 </div>
 
 {{#each playlist}}
 <div class="row no-gutters bg-light position-relative">
   <div class="col-md-6 mb-md-0 p-md-4">
-    <img class="w-100" src="{{this.imgPath}}" alt="Card image cap">
+    <div class="w-100">
+      <img class="card" src="{{this.imgPath}}" alt="Card image cap">
+    </div>
   </div>
   <div class="col-md-6 position-static p-4 pl-md-0">
     <h5 class="mt-0">{{this.name}}</h5>
