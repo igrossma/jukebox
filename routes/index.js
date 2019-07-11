@@ -25,7 +25,7 @@ router.get("/playlists", (req, res, next) => {
       }
       // console.log("TCL: playlist creator ID", playlist[0]._creator._id)
       // console.log("Connected user ID", req.user._id)
-      res.render("playlists", {
+      res.render("playlists1", {
         playlist,
         connectedUserId
       });

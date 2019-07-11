@@ -9,9 +9,21 @@
   </div>
 </div>
 
+{{#each playlist}}
+<div class="row no-gutters bg-light position-relative">
+  <div class="col-md-6 mb-md-0 p-md-4">
+    <img class="w-100" src="{{this.imgPath}}" alt="Card image cap">
+  </div>
+  <div class="col-md-6 position-static p-4 pl-md-0">
+    <h5 class="mt-0">{{this.name}}</h5>
+    <p>Location: {{this.location}}</p>
+    <p>Host: {{this._creator.username}}</p>
+    <a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Edit</a>
+  </div>
+</div>
+{{/each}}
 
-
-
+{{!-- 
 <div class="row">
 
   {{#each playlist}}
@@ -26,14 +38,12 @@
       <h5 class="card-title">{{{this.name}}}</h5>
       <form>
         <div class="form-group">
-          <label for="eventName">Event Name:</label>
-          <input type="text" class="form-control" id="eventName" placeholder="Enter event name">
         </div>
         <button type="submit" class="btn btn-primary">Add</button>
       </form>
-      <a href="/add-playlist/{{{this.id}}}" class="btn btn-sm btn-outline-primary">Add playlist</a>
+      
     </div>
   </div>
   {{/each}}
 
-</div>
+</div> --}}
