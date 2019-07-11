@@ -27,9 +27,9 @@
       <th scope="row">{{this.name}}</th>
       <th scope="row">{{this._creator.username}}</th>
       <th scope="row">{{this.location}}</th>
-      {{!-- <td><a href="#" class="btn btn-outline-primary">Play</a></td>
-      <td><a href="#" class="btn btn-outline-primary">Share</a></td> --}}
+      {{#if ../user}}
       <td><a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Edit</a></td>
+      {{/if}}
       {{#ifEquals ../this._creator._id ../../connectedUserId }} 
       {{!-- <td><a href="#" class="btn btn-outline-primary">Delete</a></td> --}}
       {{/ifEquals}}
