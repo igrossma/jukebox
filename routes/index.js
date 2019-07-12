@@ -59,10 +59,12 @@ router.post("/create-playlist", setSpotifyApi, uploadCloud.single('photo'), (req
         location: location,
         imgPath: imgPath,
         visibility: data.body.collaborative
-      });
+      }).then(playlist=>{
 
-      console.log("DEBUG", location)
-      res.redirect("/playlists");
+        console.log("DEBUG", location)
+        res.redirect(`/playlist-details/${playlist._id}`);
+      })
+
     })
     .catch(function(err) {
       console.log("noooooooo");
@@ -124,15 +126,15 @@ router.get("/add-playlist/:playlist_id", setSpotifyApi, (req, res, next) => {
 router.get("/playlist-details/:playlist_id",setSpotifyApi, (req, res, next) => {
     let playlistID = req.params.playlist_id;
 
-    // // Push playlist to spotify every 30 seconds
-    //    setInterval(() => {
+    // Push playlist to spotify every 30 seconds
+       setInterval(() => {
          
-    //      pushPlaylistToSpotify(playlistID, res.spotifyApi)
-    //        .then(() => {
-    //          res.redirect("/playlist-details/" + playlistID);
-    //        })
-    //        .catch(err => next(err));
-    //    }, 30000);
+         pushPlaylistToSpotify(playlistID, res.spotifyApi)
+           .then(() => {
+             res.redirect("/playlist-details/" + playlistID);
+           })
+           .catch(err => next(err));
+       }, 30000);
        
     Playlist.findById(playlistID)
       .populate("_owner")
