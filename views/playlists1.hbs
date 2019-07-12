@@ -12,45 +12,29 @@
 </div>
 
 {{#each playlist}}
-<div class="row no-gutters bg-light position-relative">
-  <div class="col-md-6 mb-md-0 p-md-4">
-    {{#if this.imgPath}}
-    <img class="w-100" src="{{this.imgPath}}" alt="Card image cap">
-    {{else}}
-    <img class="w-100" src="https://cdn.pixabay.com/photo/2016/11/29/04/19/beach-1867285__340.jpg"
-      alt="Card image cap">
-    {{/if}}
-  </div>
-  <div class="col-md-6 position-static p-4 pl-md-0">
-    <p>@ {{this.location}}</p>
-    <h2 class="mt-0">{{this.name}}</h2>
-    <p>hosted by {{this._creator.username}}</p>
-    <a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary">Join</a>
-  </div>
-</div>
-{{/each}}
-
-{{!-- 
-<div class="row">
-
-  {{#each playlist}}
-  <div class="card m-3" style="width: 18rem;">
-    {{#if this.imgPath}}
-    <img class="card-img-top" src="{{this.imgPath}}" alt="Card image cap">
-    {{else}}
-    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/11/29/04/19/beach-1867285__340.jpg"
-      alt="Card image cap">
-    {{/if}}
-    <div class="card-body">
-      <h5 class="card-title">{{{this.name}}}</h5>
-      <form>
-        <div class="form-group">
-        </div>
-        <button type="submit" class="btn btn-primary">Add</button>
-      </form>
-      
+<div class"row">
+  <div class="col-6">
+    
+<div class="card mb-3" style="max-width: 540px;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{this.imgPath}}" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}}</h5>
+        <p class="card-text">@ {{this.location}}</p>
+        <a href="/playlist-details/{{this.id}}" class="btn btn-outline-primary btn-sm">Join</a>
+        <p class="card-text"><small class="text-muted">hosted by {{this._creator.username}}</small></p>
+      </div>
     </div>
   </div>
-  {{/each}}
+</div>
 
-</div> --}}
+  </div>
+</div>
+
+{{/each}}
+
+
+

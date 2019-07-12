@@ -1,9 +1,9 @@
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import url('https://fonts.googleapis.com/css?family=Signika&display=swap');
 
-// * {
-//   border: 0.5px dashed red;
-// }
+* {
+  border: 0.5px dashed red;
+}
 
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
@@ -21,4 +21,8 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+.cardImgSize{
+  max-height: 150px;
 }
