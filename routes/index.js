@@ -42,6 +42,10 @@ router.post("/create-playlist", setSpotifyApi, uploadCloud.single('photo'), (req
   let imgPath = req.file.url;
   let location = req.body.location;
 
+  if (location === "") {
+    location = "Ironhack, Rua de São Bento 31, 1200-109 Lisboa"
+  } else location = req.body.location;
+
   res.spotifyApi
     .createPlaylist(req.user.spotifyId, name, { public: false })
     .then(function(data) {
@@ -56,6 +60,7 @@ router.post("/create-playlist", setSpotifyApi, uploadCloud.single('photo'), (req
         visibility: data.body.collaborative
       });
 
+      console.log("DEBUG", location)
       res.redirect("/playlists");
     })
     .catch(function(err) {
@@ -135,8 +140,23 @@ router.get("/playlist-details/:playlist_id",setSpotifyApi, (req, res, next) => {
         // console.log("DEBUG USER WHO VOTED",playlist.tracks[0]._userWhoVoted)
         // console.log("DEBUG POULATED OWNER",playlist.tracks[0]._owner, "req.user._id", req.user._id)
         res.render("playlist-details", {
-          track: playlist.tracks.sort(
-            (a, b) => b._userWhoVoted.length - a._userWhoVoted.length
+          track: playlist.tracks.sort(function sortF(a,b) {
+            if (a._userWhoVoted.length < b._userWhoVoted.length) {
+                return 1;
+            } else if (a._userWhoVoted.length > b._userWhoVoted.length) { 
+                return -1;
+            }
+        
+            // Else go to the 2nd item
+            if (a.time < b.time) { 
+                return -1;
+            } else if (a.time > b.time) {
+                return 1
+            } else { // nothing to split them
+                return 0;
+            }
+        }
+            // (a, b) => b._userWhoVoted.length - a._userWhoVoted.length
           ),
           playlistID,
           user: req.user

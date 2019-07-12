@@ -9,7 +9,7 @@ const playlistSchema = new Schema(
     visibility: Boolean,
     imgName: String,
     imgPath: {type: String },
-    location: {type: String, default: "Rua de São Bento"},
+    location: {type:String, default:"Ironhack, Rua de São Bento 31, 1200-109 Lisboa" },
     tracks: [{
       name: String,
       numberOfvotes: {type:Number, default:0 },
@@ -17,6 +17,7 @@ const playlistSchema = new Schema(
       spotifyTrackId: String,
       _userWhoVoted: [{ type: Schema.Types.ObjectId, ref: "User" }] ,
       _owner: {type: Schema.Types.ObjectId, ref: "User"},
+      time : { type : Date, default: Date.now }
   }]
   },
   {
