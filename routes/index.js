@@ -141,7 +141,7 @@ router.get("/playlist-details/:playlist_id",setSpotifyApi, (req, res, next) => {
           playlistID,
           user: req.user
         });
-      });
+      }).catch(err => next(err));
   }
 );
 

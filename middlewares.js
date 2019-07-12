@@ -17,7 +17,7 @@ function setSpotifyApi(req, res, next) {
   res.spotifyApi.setRefreshToken(req.user.refreshToken);
   res.spotifyApi
     .refreshAccessToken()
-    .then(data =>
+    .then(data =>{
       User.findByIdAndUpdate(
         req.user._id,
         {
@@ -29,7 +29,7 @@ function setSpotifyApi(req, res, next) {
     .then(updatedUser => {
       res.spotifyApi.setAccessToken(updatedUser.accessToken);
       next();
-    })
+    })}
     );
 }
 
