@@ -25,11 +25,12 @@ function setSpotifyApi(req, res, next) {
         },
         { new: true } // option of Mongoose to find the latest user
       )
-    )
+    
     .then(updatedUser => {
       res.spotifyApi.setAccessToken(updatedUser.accessToken);
       next();
-    });
+    })
+    );
 }
 
 module.exports = {
