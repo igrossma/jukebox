@@ -1,17 +1,15 @@
-Followers:
-Duration:
-Link:
+<div class="row align-items-center text-primary m-2">
+  <h3>{{playlist.name}}</h3>
+  <a href="/playlist-details/{{{playlistID}}}/add-song" class="btn btn-outline-primary m-3">+ ADD</a>
+  {{!-- <a href="/playlist-details/{{{playlistID}}}/push" class="btn btn-outline-primary">PUSH TO SPOTIFY</a> --}}
+</div>
 
-<a href="/playlist-details/{{{playlistID}}}/add-song" class="btn btn-outline-primary">+ ADD</a>
-<a href="/playlist-details/{{{playlistID}}}/push" class="btn btn-outline-primary">PUSH TO SPOTIFY</a>
-
-
-<table class="table">
+<table class="table table-dark">
   <thead>
     <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Artist</th>
-      <th scope="col">Number of votes</th>
+      <th scope="col">NAME</th>
+      <th scope="col">ARTIST</th>
+      <th scope="col">VOTES</th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
@@ -24,7 +22,7 @@ Link:
       <td>{{{this.artist}}}</td>
       <td>{{{this._userWhoVoted.length}}}</td>
       {{#if ../user}}
-      <td><a href="/vote/{{this.spotifyTrackId}}/{{../playlistID}}" class="btn btn-outline-primary">Vote</a></td>
+      <td><a href="/vote/{{this.spotifyTrackId}}/{{../playlistID}}" class="btn btn-outline-secondary">Vote</a></td>
       {{!-- <a><a href="#" class="btn btn-outline-primary">Delete</a></a> --}}
       {{/if}}
     </tr>

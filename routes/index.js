@@ -139,6 +139,7 @@ router.get("/playlist-details/:playlist_id",setSpotifyApi, (req, res, next) => {
             (a, b) => b._userWhoVoted.length - a._userWhoVoted.length
           ),
           playlistID,
+          playlist: playlist,
           user: req.user
         });
       });

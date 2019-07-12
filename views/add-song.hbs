@@ -1,8 +1,8 @@
 <div class="searchview">
   <div class="container">
-    <form action="/playlist-details/{{{playlistId}}}/add-song" method="get">
-      Song name
-      <input class="form-control" type="text" name="search" value="{{search}}"><br>
+    <form class="text-white" action="/playlist-details/{{{playlistId}}}/add-song" method="get">
+      <label for="songName" >Song idea</label> 
+      <input class="form-control" type="text" name="search" value="{{search}}" placeholder="Enter a song/artist/album name"><br>
       <button class="btn btn-outline-primary">Search</button>
     </form>
   </div>
@@ -12,7 +12,7 @@
 <div class="row">
 
   {{#each songs}}
-  <div class="card m-3" style="width: 20rem;">
+  <div class="card m-3 text-secondary bg-dark" style="width: 20rem;">
     <div class="card-body">
       Name: <h5 class="card-title">{{{this.name}}}</h5>
       Artist: <h5 class="card-title">{{{this.artists.[0].name}}}</h5>
