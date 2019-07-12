@@ -46,6 +46,7 @@ router.post("/create-playlist", setSpotifyApi, uploadCloud.single('photo'), (req
     location = "Ironhack, Rua de São Bento 31, 1200-109 Lisboa"
   } else location = req.body.location;
 
+
   res.spotifyApi
     .createPlaylist(req.user.spotifyId, name, { public: false })
     .then(function(data) {
@@ -148,9 +149,9 @@ router.get("/playlist-details/:playlist_id",setSpotifyApi, (req, res, next) => {
             }
         
             // Else go to the 2nd item
-            if (a.time > b.time) { 
+            if (a.time < b.time) { 
                 return -1;
-            } else if (a.time < b.time) {
+            } else if (a.time > b.time) {
                 return 1
             } else { // nothing to split them
                 return 0;

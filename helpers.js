@@ -22,9 +22,9 @@ function pushPlaylistToSpotify(playlistId, spotifyApi) {
               }
           
               // Else go to the 2nd item
-              if (a.time > b.time) { 
+              if (a.time < b.time) { 
                   return -1;
-              } else if (a.time < b.time) {
+              } else if (a.time > b.time) {
                   return 1
               } else { // nothing to split them
                   return 0;
